@@ -27,6 +27,7 @@ import (
 	golangv2 "github.com/operator-framework/operator-sdk/internal/plugins/golang/v2"
 	golangv3 "github.com/operator-framework/operator-sdk/internal/plugins/golang/v3"
 	helmv1 "github.com/operator-framework/operator-sdk/internal/plugins/helm/v1"
+	tfv1 "github.com/operator-framework/operator-sdk/internal/plugins/terraform/v1"
 	"github.com/operator-framework/operator-sdk/internal/util/projutil"
 
 	log "github.com/sirupsen/logrus"
@@ -64,6 +65,7 @@ func GetPluginsCLIAndRoot() (cli.CLI, *cobra.Command) {
 			&golangv3.Plugin{},
 			&helmv1.Plugin{},
 			&ansiblev1.Plugin{},
+			&tfv1.Plugin{},
 		),
 		cli.WithDefaultPlugins(config.Version2, &golangv2.Plugin{}),
 		cli.WithDefaultPlugins(config.Version3Alpha, &golangv3.Plugin{}),

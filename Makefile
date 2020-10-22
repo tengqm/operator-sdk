@@ -57,27 +57,27 @@ clean: ## Cleanup build artifacts and tool binaries.
 ##@ Build
 
 .PHONY: install
-install: ## Install operator-sdk, ansible-operator, and helm-operator.
-	go install $(GO_BUILD_ARGS) ./cmd/{operator-sdk,ansible-operator,helm-operator}
+install: ## Install operator-sdk, ansible-operator, helm-operator, and terraform-operator
+	go install $(GO_BUILD_ARGS) ./cmd/{operator-sdk,ansible-operator,helm-operator,terraform-operator}
 
 .PHONY: build
-build: ## Build operator-sdk, ansible-operator, and helm-operator.
+build: ## Build operator-sdk, ansible-operator, helm-operator, and terraform-operator
 	@mkdir -p $(BUILD_DIR)
-	go build $(GO_BUILD_ARGS) -o $(BUILD_DIR) ./cmd/{operator-sdk,ansible-operator,helm-operator}
+	go build $(GO_BUILD_ARGS) -o $(BUILD_DIR) ./cmd/{operator-sdk,ansible-operator,helm-operator,terraform-operator}
 
 # Build scorecard binaries.
 .PHONY: build/scorecard-test build/scorecard-test-kuttl build/custom-scorecard-tests
 build/scorecard-test build/scorecard-test-kuttl build/custom-scorecard-tests:
 	go build $(GO_GCFLAGS) $(GO_ASMFLAGS) -o $(BUILD_DIR)/$(@F) ./images/$(@F)
-.PHONY: build/operator-sdk build/ansible-operator build/helm-operator
-build/operator-sdk build/ansible-operator build/helm-operator:
+.PHONY: build/operator-sdk build/ansible-operator build/helm-operator build/terraform-operator
+build/operator-sdk build/ansible-operator build/helm-operator build/terraform-operator:
 	go build $(GO_BUILD_ARGS) -o $(BUILD_DIR)/$(@F) ./cmd/$(@F)
 
 ##@ Dev image build
 
 # Convenience wrapper for building all remotely hosted images.
 .PHONY: image-build
-IMAGE_TARGET_LIST = operator-sdk helm-operator ansible-operator scorecard-test scorecard-test-kuttl
+IMAGE_TARGET_LIST = operator-sdk helm-operator ansible-operator terraform-operator scorecard-test scorecard-test-kuttl
 image-build: $(foreach i,$(IMAGE_TARGET_LIST),image/$(i)) ## Build all images.
 
 # Build an image.
